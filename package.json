@@ -1,6 +1,6 @@
 {
   "name": "network-config-manager",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "Cross-platform network configuration management for Linux, macOS, and Windows",
   "main": "index.js",
   "scripts": {
