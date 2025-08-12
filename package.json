@@ -31,12 +31,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/network-config-manager.git"
+    "url": "git+https://github.com/ftlgithub/network-config-manager.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/network-config-manager/issues"
+    "url": "https://github.com/ftlgithub/network-config-manager/issues"
   },
-  "homepage": "https://github.com/yourusername/network-config-manager#readme",
+  "homepage": "https://github.com/ftlgithub/network-config-manager#readme",
   "bin": {
     "netconfig": "./bin/netconfig-cli.js"
   }
