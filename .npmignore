@@ -1,0 +1,45 @@
+# 开发和测试文件
+test/
+coverage/
+.nyc_output/
+.github/
+.vscode/
+.idea/
+
+# 示例和文档
+examples/
+docs/
+
+# 配置文件
+.eslintrc*
+.prettierrc*
+.editorconfig
+.travis.yml
+.gitlab-ci.yml
+.circleci/
+
+# 日志文件
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 临时文件
+tmp/
+temp/
+
+# 其他不需要发布的文件
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# 源代码控制
+.git/
+.gitignore
+.gitattributes
+
+# 开发脚本
+scripts/dev/

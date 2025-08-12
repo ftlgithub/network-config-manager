@@ -1,0 +1,43 @@
+{
+  "name": "network-config-manager",
+  "version": "1.0.0",
+  "description": "Cross-platform network configuration management for Linux, macOS, and Windows",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "network",
+    "configuration",
+    "cross-platform",
+    "linux",
+    "macos",
+    "windows",
+    "network-manager",
+    "ip-config",
+    "dhcp",
+    "network-interface"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^9.4.1",
+    "inquirer": "^8.2.5",
+    "rxjs": "^6.6.7"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/network-config-manager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/network-config-manager/issues"
+  },
+  "homepage": "https://github.com/yourusername/network-config-manager#readme",
+  "bin": {
+    "netconfig": "./bin/netconfig-cli.js"
+  }
+}
