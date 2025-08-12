@@ -76,14 +76,41 @@ set_ip_linux() {
   
   echo "使用CIDR格式: $ip/$cidr"
   
-  # 使用ip命令设置IP和掩码
+  # 检查接口是否存在
+  if ! ip link show "$interface" &>/dev/null; then
+    echo "错误: 网络接口 $interface 不存在"
+    return 1
+  fi
+  
+  # 确保接口处于up状态
+  echo "启用网络接口 $interface"
+  ip link set "$interface" up
+  
+  # 等待接口启动
+  sleep 1
+  
+  # 清除现有IP配置
+  echo "清除现有IP配置"
   ip addr flush dev "$interface"
-  ip addr add "$ip/$cidr" dev "$interface"
+  
+  # 设置新的IP地址
+  echo "设置IP地址: $ip/$cidr"
+  if ! ip addr add "$ip/$cidr" dev "$interface"; then
+    echo "错误: 设置IP地址失败"
+    return 1
+  fi
   
   # 设置网关
   if [[ -n "$gateway" ]]; then
+    echo "设置网关: $gateway"
+    # 删除现有默认路由
     ip route del default 2>/dev/null || true
-    ip route add default via "$gateway" dev "$interface"
+    # 添加新的默认路由
+    if ! ip route add default via "$gateway" dev "$interface"; then
+      echo "警告: 设置网关失败，尝试备用方法"
+      # 尝试不指定接口的方式
+      ip route add default via "$gateway" 2>/dev/null || echo "警告: 网关设置失败"
+    fi
   fi
   
   # 设置DNS
@@ -101,11 +128,23 @@ set_ip_linux() {
     done
   fi
   
-  # 重启网络接口
-  ip link set "$interface" down
-  ip link set "$interface" up
-  
-  echo "已设置 $interface 为静态IP: $ip"
+  # 验证IP设置
+  sleep 2
+  local current_ip=$(ip addr show "$interface" | grep "inet " | awk '{print $2}' | cut -d'/' -f1)
+  if [[ "$current_ip" == "$ip" ]]; then
+    echo "成功: 已设置 $interface 为静态IP: $ip"
+    
+    # 显示当前配置
+    echo "当前配置:"
+    echo "  IP地址: $current_ip/$cidr"
+    if [[ -n "$gateway" ]]; then
+      local current_gateway=$(ip route show default | grep "$interface" | awk '{print $3}' | head -n1)
+      echo "  网关: ${current_gateway:-未设置}"
+    fi
+  else
+    echo "错误: IP设置失败，当前IP: ${current_ip:-未获取到}"
+    return 1
+  fi
 }
 
 # 设置静态IP - macOS
