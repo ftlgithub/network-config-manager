@@ -33,6 +33,31 @@ detect_os() {
   fi
 }
 
+# 将子网掩码转换为CIDR格式
+netmask_to_cidr() {
+    local netmask=$1
+    local cidr=0
+    
+    IFS='.' read -ra ADDR <<< "$netmask"
+    for octet in "${ADDR[@]}"; do
+        case $octet in
+            255) cidr=$((cidr + 8)) ;;
+            254) cidr=$((cidr + 7)) ;;
+            252) cidr=$((cidr + 6)) ;;
+            248) cidr=$((cidr + 5)) ;;
+            240) cidr=$((cidr + 4)) ;;
+            224) cidr=$((cidr + 3)) ;;
+            192) cidr=$((cidr + 2)) ;;
+            128) cidr=$((cidr + 1)) ;;
+            0) ;;
+            *) return 1 ;; # 无效的子网掩码
+        esac
+    done
+    
+    echo $cidr
+    return 0
+}
+
 # 设置静态IP - Linux
 set_ip_linux() {
   local interface=$1
@@ -41,9 +66,19 @@ set_ip_linux() {
   local gateway=$4
   local dns=$5
   
+  # 将子网掩码转换为CIDR格式
+  local cidr
+  cidr=$(netmask_to_cidr "$netmask")
+  if [[ $? -ne 0 ]]; then
+      echo "错误: 无效的子网掩码格式: $netmask"
+      return 1
+  fi
+  
+  echo "使用CIDR格式: $ip/$cidr"
+  
   # 使用ip命令设置IP和掩码
   ip addr flush dev "$interface"
-  ip addr add "$ip/$netmask" dev "$interface"
+  ip addr add "$ip/$cidr" dev "$interface"
   
   # 设置网关
   if [[ -n "$gateway" ]]; then
