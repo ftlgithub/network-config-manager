@@ -235,6 +235,44 @@ if (!hasAdminPermissions) {
 }
 ```
 
+### 自动配置sudo权限
+
+NetworkManager提供了自动配置sudo权限的方法：
+
+```javascript
+// 配置sudo权限（需要提供管理员密码）
+const password = '您的管理员密码';
+const success = await networkManager.setupSudoPermissions(password);
+
+if (success) {
+  console.log('sudo权限配置成功');
+} else {
+  console.log('sudo权限配置失败');
+}
+```
+
+### 最新改进
+
+最新版本解决了以下sudo权限配置问题：
+
+- **用户识别修复** - 解决了sudo执行环境下无法正确识别原始用户的问题
+- **环境变量传递** - 确保SUDO_USER环境变量正确传递，避免权限配置错误
+- **PM2环境支持** - 优化了在PM2等守护进程环境下的权限配置
+
+### 特殊环境说明
+
+在PM2等守护进程环境下使用时，建议：
+
+1. 预先配置sudo权限（推荐）
+   ```bash
+   sudo /path/to/setup-sudo.sh install
+   ```
+
+2. 使用改进的spawn方式处理密码传递
+   ```javascript
+   // 请参考demo目录下的server-fixed.js示例
+   ```
+
 ## 平台支持
 
 - **Linux**: 使用ip、ifconfig和systemctl命令
