@@ -50,8 +50,14 @@ install_sudo_config() {
   chmod +x "$netconfig_script"
   chmod +x "$0"
   
-  # 获取当前用户
-  local current_user=$(whoami)
+  # 获取当前用户（优先使用SUDO_USER环境变量）
+  local current_user
+  if [[ -n "$SUDO_USER" ]]; then
+    current_user="$SUDO_USER"
+  else
+    current_user=$(whoami)
+  fi
+  echo "配置sudo权限用户: $current_user"
   
   # 创建sudoers配置文件
   local sudoers_file="/etc/sudoers.d/network-config"
