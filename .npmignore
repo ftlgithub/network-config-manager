@@ -6,10 +6,6 @@ coverage/
 .vscode/
 .idea/
 
-# 示例和文档
-examples/
-docs/
-
 # 配置文件
 .eslintrc*
 .prettierrc*
@@ -17,6 +13,7 @@ docs/
 .travis.yml
 .gitlab-ci.yml
 .circleci/
+jest.config.js
 
 # 日志文件
 logs/
@@ -41,5 +38,12 @@ Thumbs.db
 .gitignore
 .gitattributes
 
-# 开发脚本
+# 开发脚本和文档
 scripts/dev/
+docs/
+
+# 依赖目录
+node_modules/
+
+# 不包含在发布中的示例
+examples/advanced/

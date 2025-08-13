@@ -1,10 +1,12 @@
 {
   "name": "network-config-manager",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Cross-platform network configuration management for Linux, macOS, and Windows",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint .",
+    "start": "node ./bin/netconfig-cli.js"
   },
   "keywords": [
     "network",
@@ -16,7 +18,9 @@
     "network-manager",
     "ip-config",
     "dhcp",
-    "network-interface"
+    "network-interface",
+    "sudo",
+    "permissions"
   ],
   "author": "",
   "license": "MIT",
@@ -24,7 +28,13 @@
     "chalk": "^4.1.2",
     "commander": "^9.4.1",
     "inquirer": "^8.2.5",
-    "rxjs": "^6.6.7"
+    "rxjs": "^6.6.7",
+    "fs-extra": "^10.1.0"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "eslint": "^8.38.0",
+    "eslint-config-standard": "^17.0.0"
   },
   "engines": {
     "node": ">=14.0.0"
@@ -39,5 +49,13 @@
   "homepage": "https://github.com/ftlgithub/network-config-manager#readme",
   "bin": {
     "netconfig": "./bin/netconfig-cli.js"
-  }
+  },
+  "files": [
+    "index.js",
+    "lib/",
+    "bin/",
+    "scripts/",
+    "LICENSE",
+    "README.md"
+  ]
 }

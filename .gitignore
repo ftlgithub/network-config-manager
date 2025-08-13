@@ -1,0 +1,5 @@
+# 依赖目录
+node_modules/
+
+# 测试覆盖率目录
+coverage/
